@@ -2,7 +2,8 @@ from fastapi import FastAPI, HTTPException
 
 from app.github_api import (
     get_repository,
-    get_contributors
+    get_contributors,
+    get_pull_requests
 )
 
 
@@ -50,6 +51,22 @@ def contributors(owner: str, repo: str):
         return {
             "count": len(data),
             "contributors": data
+        }
+
+    except Exception as error:
+        raise HTTPException(
+            status_code=400,
+            detail=str(error)
+        )
+    
+@app.get("/api/repository/{owner}/{repo}/pull-requests")
+def pull_requests(owner: str, repo: str):
+    try:
+        data = get_pull_requests(owner, repo)
+
+        return {
+            "count": len(data),
+            "pull_requests": data
         }
 
     except Exception as error:

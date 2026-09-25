@@ -55,3 +55,14 @@ def get_contributors(owner: str, repo: str):
             "per_page": 100
         }
     )
+
+def get_pull_requests(owner: str, repo: str):
+    url = f"{GITHUB_API}/repos/{owner}/{repo}/pulls"
+
+    return get_paginated_data(
+        url,
+        params={
+            "state": "all",
+            "per_page": 100
+        }
+    )
